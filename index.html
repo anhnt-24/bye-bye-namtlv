@@ -7,10 +7,11 @@
 
 <!--
   ============== ẢNH ==============
-  Các ảnh đã được gắn trực tiếp theo tên file trong thư mục:
-    - Khung lớn ngoài: 1000001152.jpg, IMG_4163.jpg, 1000000884.jpg,
-      1000001048.jpg, 1000001138.jpg, chuc-ban-mot-ngay-tot-lanh-3.jpg, 1664739006685.jpeg
-    - Ảnh trong thư:   1000000884.jpg, 1000001048.jpg, 1000001138.jpg
+  Ảnh gắn trực tiếp theo tên file trong thư mục:
+    - Khung lớn ngoài (8): 1000001152.jpg, IMG_4163.jpg, 1000000884.jpg, 1000001048.jpg,
+      1000001138.jpg, chuc-ban-mot-ngay-tot-lanh-3.jpg, 1664739006685.jpeg, avatar-slack.jpg
+    - Ảnh trong thư (4):   1000000884.jpg, 1000001048.jpg, 1000001138.jpg, anh-point.png
+    - Sticker dán 2 bên:   sticker-nhac.png, sticker-atchi.png
   Muốn đổi ảnh: thay tên file trong các thẻ <img src="..."> bên dưới.
   =================================
 -->
@@ -97,18 +98,27 @@
   .outer .ph { width:212px; height:212px; }
   .outer figcaption { font-size:20px; margin-top:10px; }
   .outer .ph-ic { font-size:34px; } .outer .ph-ic small { font-size:13px; }
-  /* Ảnh to nên KHÔNG xếp 3 tấm chồng dọc một bên (sẽ đè nhau trên màn thường).
-     Trải đều: hàng trên 4 ảnh – hàng dưới 3 ảnh, so le + xoay/cỡ khác nhau cho tự nhiên,
+  /* Ảnh to nên KHÔNG xếp chồng dọc một bên (sẽ đè nhau trên màn thường).
+     Trải đều: hàng trên 4 ảnh – hàng dưới 4 ảnh, so le + xoay/cỡ khác nhau cho tự nhiên,
      chừa trống khoảng giữa cho phong bì. */
   /* hàng trên (4) */
   .outer .p1{ top:4%;  left:1%;   transform:rotate(-7deg) scale(1);   animation-delay:0s;   }
   .outer .p2{ top:6%;  left:25%;  transform:rotate(5deg)  scale(.9);  animation-delay:1.2s; }
   .outer .p3{ top:1%;  left:52%;  transform:rotate(-4deg) scale(.88); animation-delay:2.4s; }
   .outer .p4{ top:5%;  right:1%;  transform:rotate(8deg)  scale(1);   animation-delay:.6s;  }
-  /* hàng dưới (3) */
-  .outer .p5{ bottom:4%; left:8%;   transform:rotate(6deg)  scale(.98); animation-delay:1.8s; }
-  .outer .p6{ bottom:1%; left:40%;  transform:rotate(-6deg) scale(.9);  animation-delay:3s;   }
-  .outer .p7{ bottom:4%; right:8%;  transform:rotate(7deg)  scale(.94); animation-delay:.9s;  }
+  /* hàng dưới (4) */
+  .outer .p5{ bottom:4%; left:1%;   transform:rotate(6deg)  scale(.98); animation-delay:1.8s; }
+  .outer .p6{ bottom:1%; left:25%;  transform:rotate(-6deg) scale(.9);  animation-delay:3s;   }
+  .outer .p7{ bottom:5%; left:52%;  transform:rotate(5deg)  scale(.92); animation-delay:.9s;  }
+  .outer .p8{ bottom:3%; right:1%;  transform:rotate(-8deg) scale(1);   animation-delay:2.1s; }
+
+  /* ---- Sticker vui (PNG die-cut, không cần khung) ---- */
+  .sticker { position:fixed; z-index:2; pointer-events:none; width:clamp(110px,11vw,150px);
+    filter:drop-shadow(0 8px 14px rgba(214,51,108,.35)); transform-origin:top center;
+    animation:swing 5s ease-in-out infinite; }
+  .sticker.s1 { top:43%; left:2.5%; }
+  .sticker.s2 { top:46%; right:2.5%; animation-delay:1.2s; }
+  @media (max-width:900px){ .sticker{ display:none; } }
   @keyframes floaty { 0%,100%{translate:0 0;} 50%{translate:0 -16px;} }
   @media (min-width:1280px){ .outer{display:block;} }
   @media (min-width:1024px) and (max-width:1279px){
@@ -371,7 +381,12 @@
     <figure class="polaroid p5"><div class="ph"><img src="1000001138.jpg" alt="" onerror="this.style.display='none'"><span class="ph-ic">📷</span></div><figcaption>Những buổi Release</figcaption></figure>
     <figure class="polaroid p6"><div class="ph"><img src="chuc-ban-mot-ngay-tot-lanh-3.jpg" alt="" onerror="this.style.display='none'"><span class="ph-ic">📷</span></div><figcaption>Đồng đội</figcaption></figure>
     <figure class="polaroid p7"><div class="ph"><img src="1664739006685.jpeg" alt="" onerror="this.style.display='none'"><span class="ph-ic">📷</span></div><figcaption>Một thời để nhớ</figcaption></figure>
+    <figure class="polaroid p8"><div class="ph"><img src="avatar-slack.jpg" alt="" onerror="this.style.display='none'"><span class="ph-ic">📷</span></div><figcaption>Anh Nam ✨</figcaption></figure>
   </div>
+
+  <!-- Sticker vui dán hai bên -->
+  <img class="sticker s1" src="sticker-nhac.png" alt="" aria-hidden="true">
+  <img class="sticker s2" src="sticker-atchi.png" alt="" aria-hidden="true">
 
   <div class="scene">
     <div class="envelope" id="envelope">
@@ -401,11 +416,12 @@
         <figure class="polaroid" style="--rot:-5deg"><div class="ph"><img src="1000000884.jpg" alt="" onerror="this.style.display='none'"><span class="ph-ic">📷</span></div><figcaption>Anh Nam</figcaption></figure>
         <figure class="polaroid" style="--rot:3deg"><div class="ph"><img src="1000001048.jpg" alt="" onerror="this.style.display='none'"><span class="ph-ic">📷</span></div><figcaption>Kỷ niệm</figcaption></figure>
         <figure class="polaroid" style="--rot:6deg"><div class="ph"><img src="1000001138.jpg" alt="" onerror="this.style.display='none'"><span class="ph-ic">📷</span></div><figcaption>Một thời</figcaption></figure>
+        <figure class="polaroid" style="--rot:-4deg"><div class="ph"><img src="anh-point.png" alt="" onerror="this.style.display='none'"><span class="ph-ic">📷</span></div><figcaption>Chấm point 💰</figcaption></figure>
       </div>
 
       <p class="quote">"Cảm ơn anh vì đã đồng hành cùng tụi em."</p>
       <div class="sign">— Cả team thương mến 💗</div>
-      <div class="author">--- AnhNT ft Gemini ---</div>
+      <div class="author">--- Anhnt ft Claude ---</div>
     </div>
   </div>
 
@@ -417,7 +433,7 @@
     <div class="lb-cap" id="lbCap"></div>
   </div>
 
-  <footer>Made with 💗 &nbsp;•&nbsp; Thiệp chia tay anh Nam &nbsp;•&nbsp; ---AnhNT ft Gemini---</footer>
+  <footer>Made with 💗 &nbsp;•&nbsp; Thiệp chia tay anh Nam &nbsp;•&nbsp; ---Anhnt ft Claude---</footer>
 
 <script>
   // ---- Nhạc nền ----
