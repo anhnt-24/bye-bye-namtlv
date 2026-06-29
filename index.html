@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Thiệp Chia Tay Anh Nam 💌</title>
+
+<!--
+  ============== ẢNH ==============
+  Các ảnh đã được gắn trực tiếp theo tên file trong thư mục:
+    - Khung lớn ngoài: 1000001152.jpg, IMG_4163.jpg, 1000000884.jpg,
+      1000001048.jpg, 1000001138.jpg, chuc-ban-mot-ngay-tot-lanh-3.jpg, 1664739006685.jpeg
+    - Ảnh trong thư:   1000000884.jpg, 1000001048.jpg, 1000001138.jpg
+  Muốn đổi ảnh: thay tên file trong các thẻ <img src="..."> bên dưới.
+  =================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --pink-1:#ffe3ee; --pink-2:#ffc2dd; --pink-3:#ff8fc0; --pink-4:#ff5fa2;
+    --pink-5:#ff3d8b; --pink-deep:#d6336c; --cream:#fff6fb;
+    --ink:#8a2c52;            /* màu mực viết tay */
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { height:100%; }
+  body {
+    font-family:"Segoe UI","Helvetica Neue",system-ui,sans-serif;
+    background:linear-gradient(160deg,var(--pink-1) 0%,var(--pink-2) 45%,var(--pink-3) 100%);
+    min-height:100vh; color:var(--pink-deep); overflow-x:hidden;
+  }
+
+  /* ---- Hoa SVG to trang trí ---- */
+  .bg-flowers { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+  .bgf { position:absolute; transform-origin:center; animation:sway 12s ease-in-out infinite; }
+  .bgf use { transition:none; }
+  @keyframes sway { 0%,100%{ rotate:-6deg; } 50%{ rotate:8deg; } }
+  @keyframes spinSlow { from{ rotate:0deg; } to{ rotate:360deg; } }
+  .bgf.f1 { width:320px; height:320px; color:var(--pink-3); top:-70px;  left:-60px;  opacity:.45; }
+  .bgf.f2 { width:240px; height:240px; color:var(--pink-2); top:-50px;  right:-40px; opacity:.5; animation-delay:1.5s; }
+  .bgf.f3 { width:300px; height:300px; color:var(--pink-4); bottom:-80px; right:-60px; opacity:.4; animation-delay:.8s; }
+  .bgf.f4 { width:260px; height:260px; color:var(--pink-3); bottom:-70px; left:-50px; opacity:.45; animation-delay:2.2s; }
+  .bgf.f5 { width:150px; height:150px; color:var(--pink-2); top:18%;  left:6%;  opacity:.35; animation:spinSlow 40s linear infinite; }
+  .bgf.f6 { width:130px; height:130px; color:var(--pink-3); top:24%;  right:7%; opacity:.35; animation:spinSlow 50s linear infinite reverse; }
+  .bgf.f7 { width:120px; height:120px; color:var(--pink-2); bottom:16%; left:10%; opacity:.3;  animation:spinSlow 46s linear infinite; }
+  .bgf.f8 { width:140px; height:140px; color:var(--pink-3); bottom:20%; right:9%; opacity:.3;  animation:spinSlow 54s linear infinite reverse; }
+
+  /* ---- Hoa đung đưa (lắc lư như đang treo) ---- */
+  .float-flowers { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+  .ff { position:absolute; transform-origin:top center; animation:swing 5s ease-in-out infinite; }
+  /* cuống hoa mảnh phía trên */
+  .ff::before { content:""; position:absolute; left:50%; top:-30px; width:2px; height:34px;
+    background:linear-gradient(var(--pink-4),transparent); transform:translateX(-50%); opacity:.5; }
+  @keyframes swing {
+    0%,100% { transform:rotate(-13deg) translateY(0); }
+    50%     { transform:rotate(13deg) translateY(8px); }
+  }
+  .ff1 { width:90px;  height:90px;  color:var(--pink-3); top:12%; left:14%; opacity:.5;  animation-duration:4.5s; }
+  .ff2 { width:70px;  height:70px;  color:var(--pink-4); top:9%;  left:46%; opacity:.45; animation-duration:5.5s; animation-delay:.6s; }
+  .ff3 { width:100px; height:100px; color:var(--pink-2); top:16%; right:16%; opacity:.5;  animation-duration:6s;   animation-delay:1s; }
+  .ff4 { width:64px;  height:64px;  color:var(--pink-3); top:42%; left:8%;  opacity:.4;  animation-duration:4.8s; animation-delay:.3s; }
+  .ff5 { width:74px;  height:74px;  color:var(--pink-4); top:46%; right:9%; opacity:.42; animation-duration:5.2s; animation-delay:1.3s; }
+  .ff6 { width:84px;  height:84px;  color:var(--pink-3); bottom:16%; left:22%; opacity:.45; animation-duration:5.8s; animation-delay:.9s; }
+  .ff7 { width:60px;  height:60px;  color:var(--pink-2); bottom:24%; right:24%; opacity:.4; animation-duration:4.6s; animation-delay:1.6s; }
+  .ff8 { width:78px;  height:78px;  color:var(--pink-4); bottom:10%; right:42%; opacity:.42; animation-duration:6.2s; animation-delay:.5s; }
+  @media (max-width:560px){ .ff2,.ff7,.ff8 { display:none; } }
+
+  /* ---- Cánh hoa rơi ---- */
+  .petals { position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:0; }
+  .petal { position:absolute; top:-40px; opacity:.85; animation:fall linear infinite; will-change:transform; }
+  @keyframes fall {
+    0%{transform:translateY(-10vh) translateX(0) rotate(0deg); opacity:0;}
+    10%{opacity:.9;}
+    100%{transform:translateY(110vh) translateX(40px) rotate(360deg); opacity:0;}
+  }
+
+  /* ---- Khung polaroid dùng chung ---- */
+  .polaroid { background:#fff; padding:9px 9px 30px; border-radius:5px;
+    box-shadow:0 12px 26px rgba(214,51,108,.28); text-align:center; }
+  .polaroid .ph { position:relative; overflow:hidden; border-radius:3px;
+    background:linear-gradient(135deg,var(--pink-2),var(--pink-3));
+    display:flex; align-items:center; justify-content:center; }
+  .polaroid .ph img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .polaroid .ph-ic { color:rgba(255,255,255,.95); font-size:26px; line-height:1.25; }
+  .polaroid .ph-ic small { font-size:10px; display:block; }
+  .polaroid figcaption { margin-top:8px; font-size:18px; color:var(--pink-deep);
+    font-family:"Caveat",cursive; }
+
+  /* ---- Khung ảnh LỚN quanh màn hình ---- */
+  .outer { position:fixed; inset:0; z-index:1; pointer-events:none; display:none; }
+  .outer .polaroid { position:absolute; width:230px; animation:floaty 6s ease-in-out infinite; }
+  .outer .ph { width:212px; height:212px; }
+  .outer figcaption { font-size:20px; margin-top:10px; }
+  .outer .ph-ic { font-size:34px; } .outer .ph-ic small { font-size:13px; }
+  .outer .p1{ top:5%;    left:2%;   transform:rotate(-8deg) scale(1.06); animation-delay:0s;   }
+  .outer .p2{ top:6%;    left:31%;  transform:rotate(4deg)  scale(.97);  animation-delay:3s;   }
+  .outer .p3{ top:13%;   right:5%;  transform:rotate(7deg)  scale(.92);  animation-delay:1.2s; }
+  .outer .p4{ top:41%;   left:0%;   transform:rotate(6deg)  scale(.9);   animation-delay:2.4s; }
+  .outer .p5{ top:30%;   right:1%;  transform:rotate(-6deg) scale(1.04); animation-delay:.9s;  }
+  .outer .p6{ bottom:6%; left:13%;  transform:rotate(7deg)  scale(.95);  animation-delay:.6s;  }
+  .outer .p7{ bottom:7%; right:6%;  transform:rotate(-7deg) scale(1);    animation-delay:1.8s; }
+  @keyframes floaty { 0%,100%{translate:0 0;} 50%{translate:0 -16px;} }
+  @media (min-width:1280px){ .outer{display:block;} }
+  @media (min-width:1024px) and (max-width:1279px){
+    .outer{display:block;}
+    .outer .polaroid{width:190px;} .outer .ph{width:172px;height:172px;}
+  }
+
+  /* ---- Sân khấu + phong bì ---- */
+  .scene { position:relative; z-index:2; min-height:100vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px 16px; }
+  .hint { margin-top:34px; font-size:15px; color:var(--pink-deep); font-style:italic;
+    animation:pulse 1.8s ease-in-out infinite; transition:opacity .4s ease; }
+  @keyframes pulse { 0%,100%{opacity:.55;transform:translateY(0);} 50%{opacity:1;transform:translateY(4px);} }
+
+  .envelope { position:relative; width:340px; height:226px; cursor:pointer; perspective:1200px;
+    filter:drop-shadow(0 22px 40px rgba(214,51,108,.35)); transition:transform .6s ease; }
+  .envelope:hover { transform:translateY(-4px); }
+  .env-back { position:absolute; inset:0; background:linear-gradient(135deg,var(--pink-4),var(--pink-5)); border-radius:12px; }
+
+  /* tờ giấy trắng ló ra khi mở */
+  .peek { position:absolute; left:50%; top:24px; width:280px; height:170px; margin-left:-140px;
+    background:var(--cream); border-radius:8px; box-shadow:0 4px 12px rgba(214,51,108,.18);
+    z-index:2; transform:translateY(40px); opacity:0; transition:transform .6s ease .15s, opacity .4s ease .15s; }
+  .peek::before { content:""; position:absolute; left:18px; right:18px; top:26px; height:2px;
+    background:rgba(255,143,192,.5); box-shadow:0 18px rgba(255,143,192,.5),0 36px rgba(255,143,192,.5),0 54px rgba(255,143,192,.5); }
+  .envelope.open .peek { transform:translateY(-70px); opacity:1; }
+
+  .pocket { position:absolute; inset:0; z-index:3; border-radius:12px; overflow:hidden;
+    background:linear-gradient(135deg,var(--pink-3),var(--pink-4)); }
+  .pocket::before { content:""; position:absolute; inset:0;
+    background:linear-gradient(to bottom right,transparent 49.5%,rgba(255,255,255,.18) 50%,transparent 50.5%),
+               linear-gradient(to bottom left,transparent 49.5%,rgba(0,0,0,.06) 50%,transparent 50.5%); }
+  .pocket::after { content:""; position:absolute; left:0; right:0; bottom:0; height:0;
+    border-left:170px solid transparent; border-right:170px solid transparent; border-bottom:150px solid rgba(255,95,162,.55); }
+
+  .flap { position:absolute; left:0; top:0; width:0; height:0;
+    border-left:170px solid transparent; border-right:170px solid transparent; border-top:124px solid var(--pink-5);
+    transform-origin:top center; transform:rotateX(0deg);
+    transition:transform .6s ease, border-top-color .6s ease; z-index:5; }
+  .envelope.open .flap { transform:rotateX(180deg); border-top-color:var(--pink-4); z-index:1;
+    transition:transform .6s ease, z-index 0s linear .3s; }
+
+  .seal { position:absolute; left:50%; top:86px; transform:translate(-50%,-50%);
+    width:50px; height:50px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,#ff6fae,var(--pink-deep));
+    display:flex; align-items:center; justify-content:center; font-size:22px;
+    box-shadow:0 4px 10px rgba(0,0,0,.2); z-index:6; transition:opacity .3s ease,transform .4s ease; }
+  .envelope.open .seal { opacity:0; transform:translate(-50%,-50%) scale(.4); }
+
+  /* ---- MODAL lá thư ---- */
+  .modal { position:fixed; inset:0; z-index:50; display:flex; align-items:center; justify-content:center;
+    padding:20px; background:rgba(214,51,108,.28); backdrop-filter:blur(4px);
+    opacity:0; visibility:hidden; transition:opacity .4s ease, visibility .4s ease; }
+  .modal.show { opacity:1; visibility:visible; }
+
+  .paper {
+    position:relative; width:min(560px,94vw); max-height:88vh; overflow:auto;
+    --line:40px;
+    color:var(--ink);
+    font-family:"Patrick Hand","Comic Sans MS","Segoe Script",cursive;
+    line-height:var(--line); font-size:19px;
+    padding:30px 34px 40px 74px;
+    border-radius:6px;
+    background-color:#fffdf6;
+    background-image:
+      /* lề đỏ dọc */
+      linear-gradient(to right, transparent 56px, rgba(255,90,140,.55) 56px, rgba(255,90,140,.55) 58px, transparent 58px),
+      /* dòng kẻ ngang */
+      repeating-linear-gradient(to bottom,
+        transparent 0, transparent calc(var(--line) - 1px),
+        rgba(120,170,255,.40) calc(var(--line) - 1px), rgba(120,170,255,.40) var(--line));
+    background-position:0 0, 0 14px;
+    box-shadow:0 30px 70px rgba(214,51,108,.4), 0 4px 14px rgba(0,0,0,.12);
+    transform:translateY(60vh) scale(.12) rotate(-7deg); opacity:0;
+  }
+  .modal.show .paper { animation:flyIn .8s cubic-bezier(.2,.85,.25,1) forwards; }
+  @keyframes flyIn {
+    0%   { transform:translateY(60vh) scale(.12) rotate(-7deg); opacity:0; }
+    55%  { opacity:1; }
+    100% { transform:translateY(0) scale(1) rotate(0deg); opacity:1; }
+  }
+
+  .paper .close { position:absolute; top:8px; right:12px; width:34px; height:34px; border:none;
+    border-radius:50%; cursor:pointer; font-size:20px; line-height:1; color:#fff;
+    background:linear-gradient(135deg,var(--pink-4),var(--pink-deep)); box-shadow:0 4px 10px rgba(214,51,108,.4);
+    z-index:3; font-family:system-ui; transition:transform .2s ease; }
+  .paper .close:hover { transform:scale(1.12) rotate(90deg); }
+
+  .paper h1 { font-family:"Caveat",cursive; font-weight:700; font-size:40px; line-height:calc(var(--line)*1.2);
+    text-align:center; color:var(--pink-deep); margin-bottom:2px; }
+  .paper .sub { text-align:center; font-size:20px; font-family:"Caveat",cursive; color:var(--pink-4);
+    line-height:var(--line); margin-bottom:8px; }
+  .paper p { margin:0 0 var(--line) 0; }
+  .paper .hl { color:var(--pink-deep); font-weight:700; }
+  .paper .sign { text-align:right; font-family:"Caveat",cursive; font-size:26px; color:var(--pink-deep);
+    margin-top:6px; }
+  .paper .quote { text-align:center; font-style:italic; color:var(--pink-4); }
+  .paper .author { text-align:center; font-family:"Caveat",cursive; font-size:19px;
+    color:var(--pink-4); opacity:.85; margin-top:10px; letter-spacing:.5px; }
+
+  /* ảnh nhỏ trong thư (như dán băng keo) */
+  .inner-photos { display:flex; gap:12px; justify-content:center; margin:6px 0 var(--line); flex-wrap:wrap; }
+  .inner-photos .polaroid { width:120px; padding:8px 8px 26px; transform:rotate(var(--rot,0deg)); }
+  .inner-photos .ph { width:104px; height:104px; }
+  .inner-photos figcaption { font-size:17px; }
+
+  footer { position:fixed; bottom:12px; width:100%; text-align:center; font-size:12px; color:rgba(214,51,108,.6); z-index:1; }
+
+  .burst { position:fixed; font-size:20px; pointer-events:none; z-index:60; animation:burst 1s ease-out forwards; }
+  @keyframes burst { 0%{transform:translate(0,0) scale(.6); opacity:1;} 100%{transform:translate(var(--bx),var(--by)) scale(1.3); opacity:0;} }
+
+  @media (max-width:380px){ .envelope{transform:scale(.9);} .paper{font-size:17px; padding-left:64px;} }
+</style>
+</head>
+<body>
+  <!-- Định nghĩa bông hoa SVG dùng lại -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="flower" viewBox="-50 -50 100 100">
+      <g fill="currentColor">
+        <ellipse cx="0" cy="-26" rx="14" ry="26" transform="rotate(0)"/>
+        <ellipse cx="0" cy="-26" rx="14" ry="26" transform="rotate(60)"/>
+        <ellipse cx="0" cy="-26" rx="14" ry="26" transform="rotate(120)"/>
+        <ellipse cx="0" cy="-26" rx="14" ry="26" transform="rotate(180)"/>
+        <ellipse cx="0" cy="-26" rx="14" ry="26" transform="rotate(240)"/>
+        <ellipse cx="0" cy="-26" rx="14" ry="26" transform="rotate(300)"/>
+      </g>
+      <circle cx="0" cy="0" r="13" fill="#ffe06b"/>
+      <circle cx="0" cy="0" r="13" fill="none" stroke="rgba(214,51,108,.25)" stroke-width="2"/>
+    </symbol>
+
+    <!-- Hoa cúc nhiều cánh -->
+    <symbol id="flower-daisy" viewBox="-50 -50 100 100">
+      <g fill="currentColor">
+        <ellipse cx="0" cy="-28" rx="5" ry="22" transform="rotate(0)"/>
+        <ellipse cx="0" cy="-28" rx="5" ry="22" transform="rotate(30)"/>
+        <ellipse cx="0" cy="-28" rx="5" ry="22" transform="rotate(60)"/>
+        <ellipse cx="0" cy="-28" rx="5" ry="22" transform="rotate(90)"/>
+        <ellipse cx="0" cy="-28" rx="5" ry="22" transform="rotate(120)"/>
+        <ellipse cx="0" cy="-28" rx="5" ry="22" transform="rotate(150)"/>
+        <ellipse cx="0" cy="-28" rx="5" ry="22" transform="rotate(180)"/>
+        <ellipse cx="0" cy="-28" rx="5" ry="22" transform="rotate(210)"/>
+        <ellipse cx="0" cy="-28" rx="5" ry="22" transform="rotate(240)"/>
+        <ellipse cx="0" cy="-28" rx="5" ry="22" transform="rotate(270)"/>
+        <ellipse cx="0" cy="-28" rx="5" ry="22" transform="rotate(300)"/>
+        <ellipse cx="0" cy="-28" rx="5" ry="22" transform="rotate(330)"/>
+      </g>
+      <circle cx="0" cy="0" r="15" fill="#ffcf3f"/>
+      <circle cx="0" cy="0" r="15" fill="none" stroke="rgba(180,120,30,.3)" stroke-width="2"/>
+    </symbol>
+
+    <!-- Hoa anh đào (5 cánh có khía) -->
+    <symbol id="flower-sakura" viewBox="-50 -50 100 100">
+      <g fill="currentColor">
+        <path d="M0,-6 C -14,-14 -20,-34 -8,-40 C -3,-44 0,-39 0,-35 C 0,-39 3,-44 8,-40 C 20,-34 14,-14 0,-6 Z" transform="rotate(0)"/>
+        <path d="M0,-6 C -14,-14 -20,-34 -8,-40 C -3,-44 0,-39 0,-35 C 0,-39 3,-44 8,-40 C 20,-34 14,-14 0,-6 Z" transform="rotate(72)"/>
+        <path d="M0,-6 C -14,-14 -20,-34 -8,-40 C -3,-44 0,-39 0,-35 C 0,-39 3,-44 8,-40 C 20,-34 14,-14 0,-6 Z" transform="rotate(144)"/>
+        <path d="M0,-6 C -14,-14 -20,-34 -8,-40 C -3,-44 0,-39 0,-35 C 0,-39 3,-44 8,-40 C 20,-34 14,-14 0,-6 Z" transform="rotate(216)"/>
+        <path d="M0,-6 C -14,-14 -20,-34 -8,-40 C -3,-44 0,-39 0,-35 C 0,-39 3,-44 8,-40 C 20,-34 14,-14 0,-6 Z" transform="rotate(288)"/>
+      </g>
+      <circle cx="0" cy="0" r="8" fill="#ffd34d"/>
+    </symbol>
+
+    <!-- Hoa tulip -->
+    <symbol id="flower-tulip" viewBox="-50 -50 100 100">
+      <g fill="currentColor">
+        <path d="M-20,-6 C -26,-40 -8,-46 0,-24 C 8,-46 26,-40 20,-6 C 12,8 -12,8 -20,-6 Z"/>
+      </g>
+      <path d="M0,-26 C -8,-12 -8,2 0,7 C 8,2 8,-12 0,-26 Z" fill="rgba(214,51,108,.35)"/>
+    </symbol>
+
+    <!-- Hoa 5 cánh tròn -->
+    <symbol id="flower-five" viewBox="-50 -50 100 100">
+      <g fill="currentColor">
+        <path d="M0,0 C -16,-10 -18,-38 0,-42 C 18,-38 16,-10 0,0 Z" transform="rotate(0)"/>
+        <path d="M0,0 C -16,-10 -18,-38 0,-42 C 18,-38 16,-10 0,0 Z" transform="rotate(72)"/>
+        <path d="M0,0 C -16,-10 -18,-38 0,-42 C 18,-38 16,-10 0,0 Z" transform="rotate(144)"/>
+        <path d="M0,0 C -16,-10 -18,-38 0,-42 C 18,-38 16,-10 0,0 Z" transform="rotate(216)"/>
+        <path d="M0,0 C -16,-10 -18,-38 0,-42 C 18,-38 16,-10 0,0 Z" transform="rotate(288)"/>
+      </g>
+      <circle cx="0" cy="0" r="9" fill="#ffe06b"/>
+    </symbol>
+  </svg>
+
+  <!-- Hoa to trang trí quanh màn hình -->
+  <div class="bg-flowers" aria-hidden="true">
+    <svg class="bgf f1"><use href="#flower-daisy"/></svg>
+    <svg class="bgf f2"><use href="#flower-sakura"/></svg>
+    <svg class="bgf f3"><use href="#flower"/></svg>
+    <svg class="bgf f4"><use href="#flower-tulip"/></svg>
+    <svg class="bgf f5"><use href="#flower-five"/></svg>
+    <svg class="bgf f6"><use href="#flower-daisy"/></svg>
+    <svg class="bgf f7"><use href="#flower-sakura"/></svg>
+    <svg class="bgf f8"><use href="#flower-five"/></svg>
+  </div>
+
+  <!-- Hoa đung đưa khắp màn hình -->
+  <div class="float-flowers" aria-hidden="true">
+    <svg class="ff ff1"><use href="#flower-sakura"/></svg>
+    <svg class="ff ff2"><use href="#flower-five"/></svg>
+    <svg class="ff ff3"><use href="#flower-daisy"/></svg>
+    <svg class="ff ff4"><use href="#flower-tulip"/></svg>
+    <svg class="ff ff5"><use href="#flower-sakura"/></svg>
+    <svg class="ff ff6"><use href="#flower"/></svg>
+    <svg class="ff ff7"><use href="#flower-five"/></svg>
+    <svg class="ff ff8"><use href="#flower-daisy"/></svg>
+  </div>
+
+  <div class="petals" id="petals"></div>
+
+  <!-- Khung ảnh lớn quanh màn hình -->
+  <div class="outer">
+    <figure class="polaroid p1"><div class="ph"><img src="1000001152.jpg" alt="" onerror="this.style.display='none'"><span class="ph-ic">📷</span></div><figcaption>Kỷ niệm</figcaption></figure>
+    <figure class="polaroid p2"><div class="ph"><img src="IMG_4163.jpg" alt="" onerror="this.style.display='none'"><span class="ph-ic">📷</span></div><figcaption>Cùng nhau</figcaption></figure>
+    <figure class="polaroid p3"><div class="ph"><img src="1000000884.jpg" alt="" onerror="this.style.display='none'"><span class="ph-ic">📷</span></div><figcaption>Cả team mình</figcaption></figure>
+    <figure class="polaroid p4"><div class="ph"><img src="1000001048.jpg" alt="" onerror="this.style.display='none'"><span class="ph-ic">📷</span></div><figcaption>Hẹn gặp lại</figcaption></figure>
+    <figure class="polaroid p5"><div class="ph"><img src="1000001138.jpg" alt="" onerror="this.style.display='none'"><span class="ph-ic">📷</span></div><figcaption>Những buổi Release</figcaption></figure>
+    <figure class="polaroid p6"><div class="ph"><img src="chuc-ban-mot-ngay-tot-lanh-3.jpg" alt="" onerror="this.style.display='none'"><span class="ph-ic">📷</span></div><figcaption>Đồng đội</figcaption></figure>
+    <figure class="polaroid p7"><div class="ph"><img src="1664739006685.jpeg" alt="" onerror="this.style.display='none'"><span class="ph-ic">📷</span></div><figcaption>Một thời để nhớ</figcaption></figure>
+  </div>
+
+  <div class="scene">
+    <div class="envelope" id="envelope">
+      <div class="env-back"></div>
+      <div class="peek"></div>
+      <div class="pocket"></div>
+      <div class="flap"></div>
+      <div class="seal">💗</div>
+    </div>
+    <div class="hint" id="hint">Chạm vào phong bì để mở 💌</div>
+  </div>
+
+  <!-- MODAL lá thư giấy kẻ -->
+  <div class="modal" id="modal">
+    <div class="paper" id="paper">
+      <button class="close" id="closeBtn" aria-label="Đóng">×</button>
+      <h1>Tạm Biệt Anh Nam</h1>
+      <div class="sub">~ lời nhắn từ cả team gửi anh ~</div>
+
+      <p>Anh Nam ơi, đọc tin nhắn của anh mà cả team lặng người, kênh chat chung im ắng lạ thường. Bình thường toàn anh đánh point đẹp cho tụi em tha hồ "bú", giờ siêu dự án <span class="hl">Blocko AI Section</span> vừa mới ổn định, anh lại tắt trạng thái làm việc bỏ tụi em bơ vơ sao anh?</p>
+
+      <p>Cảm ơn anh vì những buổi Release gánh hết áp lực cho tụi em, lúc nào cũng vui vẻ, hòa đồng, đứng mũi chịu sào dập từng con devbug. Không có <span class="hl">anh Nam</span> vừa tâm lý vừa chấm point mát tay, tụi em sao trưởng thành nổi.</p>
+
+      <p>Tụi em thực sự trân trọng khoảng thời gian được làm việc cùng anh. Cả team trân trọng anh rất nhiều, chúc anh Nam sang bến mới luôn <span class="hl">rực rỡ và thành công</span>! 🌷</p>
+
+      <div class="inner-photos">
+        <figure class="polaroid" style="--rot:-5deg"><div class="ph"><img src="1000000884.jpg" alt="" onerror="this.style.display='none'"><span class="ph-ic">📷</span></div><figcaption>Anh Nam</figcaption></figure>
+        <figure class="polaroid" style="--rot:3deg"><div class="ph"><img src="1000001048.jpg" alt="" onerror="this.style.display='none'"><span class="ph-ic">📷</span></div><figcaption>Kỷ niệm</figcaption></figure>
+        <figure class="polaroid" style="--rot:6deg"><div class="ph"><img src="1000001138.jpg" alt="" onerror="this.style.display='none'"><span class="ph-ic">📷</span></div><figcaption>Một thời</figcaption></figure>
+      </div>
+
+      <p class="quote">"Cảm ơn anh vì đã đồng hành cùng tụi em."</p>
+      <div class="sign">— Cả team thương mến 💗</div>
+      <div class="author">--- AnhNT ft Gemini ---</div>
+    </div>
+  </div>
+
+  <footer>Made with 💗 &nbsp;•&nbsp; Thiệp chia tay anh Nam &nbsp;•&nbsp; ---AnhNT ft Gemini---</footer>
+
+<script>
+  // ---- Cánh hoa rơi ----
+  const petalChars = ["🌸","🌷","🌹","🌺","🌼","🏵️","💐","🌻","💗","💕","💞","🩷"];
+  const petalsBox = document.getElementById("petals");
+  function spawnPetal(){
+    const p=document.createElement("div"); p.className="petal";
+    p.textContent=petalChars[Math.floor(Math.random()*petalChars.length)];
+    p.style.left=Math.random()*100+"vw"; p.style.fontSize=14+Math.random()*22+"px";
+    const d=6+Math.random()*7; p.style.animationDuration=d+"s"; p.style.animationDelay=Math.random()*2+"s";
+    petalsBox.appendChild(p); setTimeout(()=>p.remove(),(d+2)*1000);
+  }
+  for(let i=0;i<34;i++) spawnPetal();
+  setInterval(spawnPetal,380);
+
+  // ---- Phong bì + modal ----
+  const envelope=document.getElementById("envelope");
+  const hint=document.getElementById("hint");
+  const modal=document.getElementById("modal");
+  const closeBtn=document.getElementById("closeBtn");
+  let opened=false;
+
+  function openCard(){
+    if(opened) return; opened=true;
+    envelope.classList.add("open");          // mở nắp phong bì
+    hint.style.opacity="0";
+    const r=envelope.getBoundingClientRect();
+    burstHearts(r.left+r.width/2, r.top+30);
+    setTimeout(()=>{ modal.classList.add("show"); document.body.style.overflow="hidden"; }, 650); // thư bay vào
+  }
+  function closeCard(){
+    opened=false;
+    modal.classList.remove("show");
+    envelope.classList.remove("open");
+    hint.style.opacity="";
+    document.body.style.overflow="";
+  }
+
+  envelope.addEventListener("click", openCard);
+  closeBtn.addEventListener("click", closeCard);
+  modal.addEventListener("click",(e)=>{ if(e.target===modal) closeCard(); });
+  document.addEventListener("keydown",(e)=>{ if(e.key==="Escape") closeCard(); });
+  setTimeout(openCard, 1100); // tự mở sau khi tải
+
+  // ---- Tim bắn ----
+  function burstHearts(x,y){
+    const hearts=["💗","💕","💖","🩷","💞","🌸"];
+    for(let i=0;i<16;i++){
+      const h=document.createElement("div"); h.className="burst";
+      h.textContent=hearts[Math.floor(Math.random()*hearts.length)];
+      h.style.left=x+"px"; h.style.top=y+"px";
+      const a=Math.random()*Math.PI*2, dist=60+Math.random()*130;
+      h.style.setProperty("--bx",Math.cos(a)*dist+"px");
+      h.style.setProperty("--by",Math.sin(a)*dist+"px");
+      document.body.appendChild(h); setTimeout(()=>h.remove(),1000);
+    }
+  }
+  document.addEventListener("click",(e)=>{
+    if(e.target.closest(".envelope")||e.target.closest(".modal")) return;
+    burstHearts(e.clientX,e.clientY);
+  });
+</script>
+</body>
+</html>
