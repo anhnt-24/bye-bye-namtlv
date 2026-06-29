@@ -274,7 +274,7 @@
 </head>
 <body>
   <!-- Nhạc nền: Tạm Biệt Nhé - Lynk Lee -->
-  <audio id="bgMusic" src="music.mp3" loop preload="auto"></audio>
+  <audio id="bgMusic" src="music.mp3" loop autoplay preload="auto"></audio>
   <button class="music-btn" id="musicBtn" aria-label="Bật/tắt nhạc"><span class="disc">🎵</span></button>
   <div class="music-tip" id="musicTip">Bật nhạc nền 🎶</div>
 
@@ -449,7 +449,7 @@
     musicTip.classList.toggle("hidden",playing);
   }
   function playMusic(){
-    bgMusic.play().then(()=>setMusicUI(true)).catch(()=>setMusicUI(false));
+    bgMusic.play().then(()=>{ setMusicUI(true); removeStartListeners(); }).catch(()=>setMusicUI(false));
   }
   function toggleMusic(){
     if(bgMusic.paused) playMusic();
@@ -457,13 +457,13 @@
   }
   musicBtn.addEventListener("click",(e)=>{ e.stopPropagation(); toggleMusic(); });
 
-  // Trình duyệt chặn tự phát nhạc -> thử phát ngay, nếu bị chặn thì phát ở lần bấm đầu tiên
+  // Tự bật nhạc: thử phát ngay khi tải. Trình duyệt thường chặn tự phát có tiếng,
+  // nên nếu bị chặn sẽ tự phát ngay ở thao tác ĐẦU TIÊN bất kỳ (chạm/bấm/cuộn/gõ phím/di chuột).
+  const startEvents=["pointerdown","touchstart","click","keydown","scroll","wheel","mousemove"];
+  function startOnFirstInteract(){ if(bgMusic.paused) playMusic(); }
+  function removeStartListeners(){ startEvents.forEach(ev=>window.removeEventListener(ev,startOnFirstInteract)); }
+  startEvents.forEach(ev=>window.addEventListener(ev,startOnFirstInteract,{passive:true}));
   playMusic();
-  function startOnFirstTap(){
-    if(bgMusic.paused) playMusic();
-    window.removeEventListener("pointerdown",startOnFirstTap);
-  }
-  window.addEventListener("pointerdown",startOnFirstTap);
 
   // ---- Cánh hoa rơi ----
   const petalChars = ["🌸","🌷","🌹","🌺","🌼","🏵️","💐","🌻","💗","💕","💞","🩷"];
