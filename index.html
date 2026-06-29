@@ -237,6 +237,23 @@
   .lightbox .lb-tip { position:absolute; top:24px; left:0; right:0; text-align:center; pointer-events:none;
     color:rgba(255,255,255,.8); font-size:14px; font-style:italic; }
 
+  /* ---- Nút bật/tắt nhạc ---- */
+  .music-btn { position:fixed; top:16px; right:16px; z-index:80; width:52px; height:52px;
+    border:none; border-radius:50%; cursor:pointer; font-size:24px; color:#fff;
+    background:linear-gradient(135deg,var(--pink-4),var(--pink-deep));
+    box-shadow:0 6px 18px rgba(214,51,108,.45); display:flex; align-items:center; justify-content:center;
+    transition:transform .2s ease; }
+  .music-btn:hover { transform:scale(1.1); }
+  .music-btn.playing .disc { animation:spinDisc 4s linear infinite; }
+  @keyframes spinDisc { to { transform:rotate(360deg); } }
+  /* nhắc nhẹ "bật nhạc" khi chưa phát */
+  .music-tip { position:fixed; top:22px; right:78px; z-index:80; background:#fff; color:var(--pink-deep);
+    padding:7px 13px; border-radius:20px; font-size:13px; box-shadow:0 6px 16px rgba(214,51,108,.3);
+    white-space:nowrap; animation:pulse 1.8s ease-in-out infinite; }
+  .music-tip::after { content:""; position:absolute; right:-6px; top:50%; transform:translateY(-50%);
+    border-left:7px solid #fff; border-top:6px solid transparent; border-bottom:6px solid transparent; }
+  .music-tip.hidden { display:none; }
+
   footer { position:fixed; bottom:12px; width:100%; text-align:center; font-size:12px; color:rgba(214,51,108,.6); z-index:1; }
 
   .burst { position:fixed; font-size:20px; pointer-events:none; z-index:60; animation:burst 1s ease-out forwards; }
@@ -246,6 +263,11 @@
 </style>
 </head>
 <body>
+  <!-- Nhạc nền: Tạm Biệt Nhé - Lynk Lee -->
+  <audio id="bgMusic" src="music.mp3" loop preload="auto"></audio>
+  <button class="music-btn" id="musicBtn" aria-label="Bật/tắt nhạc"><span class="disc">🎵</span></button>
+  <div class="music-tip" id="musicTip">Bật nhạc nền 🎶</div>
+
   <!-- Định nghĩa bông hoa SVG dùng lại -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <symbol id="flower" viewBox="-50 -50 100 100">
@@ -398,6 +420,35 @@
   <footer>Made with 💗 &nbsp;•&nbsp; Thiệp chia tay anh Nam &nbsp;•&nbsp; ---AnhNT ft Gemini---</footer>
 
 <script>
+  // ---- Nhạc nền ----
+  const bgMusic=document.getElementById("bgMusic");
+  const musicBtn=document.getElementById("musicBtn");
+  const musicTip=document.getElementById("musicTip");
+  const discIcon=musicBtn.querySelector(".disc");
+  bgMusic.volume=0.55;
+
+  function setMusicUI(playing){
+    musicBtn.classList.toggle("playing",playing);
+    discIcon.textContent=playing?"🎵":"🔇";
+    musicTip.classList.toggle("hidden",playing);
+  }
+  function playMusic(){
+    bgMusic.play().then(()=>setMusicUI(true)).catch(()=>setMusicUI(false));
+  }
+  function toggleMusic(){
+    if(bgMusic.paused) playMusic();
+    else { bgMusic.pause(); setMusicUI(false); }
+  }
+  musicBtn.addEventListener("click",(e)=>{ e.stopPropagation(); toggleMusic(); });
+
+  // Trình duyệt chặn tự phát nhạc -> thử phát ngay, nếu bị chặn thì phát ở lần bấm đầu tiên
+  playMusic();
+  function startOnFirstTap(){
+    if(bgMusic.paused) playMusic();
+    window.removeEventListener("pointerdown",startOnFirstTap);
+  }
+  window.addEventListener("pointerdown",startOnFirstTap);
+
   // ---- Cánh hoa rơi ----
   const petalChars = ["🌸","🌷","🌹","🌺","🌼","🏵️","💐","🌻","💗","💕","💞","🩷"];
   const petalsBox = document.getElementById("petals");
