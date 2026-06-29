@@ -59,7 +59,7 @@
     50%     { transform:rotate(13deg) translateY(8px); }
   }
   .ff1 { width:90px;  height:90px;  color:var(--pink-3); top:12%; left:14%; opacity:.5;  animation-duration:4.5s; }
-  .ff2 { width:70px;  height:70px;  color:var(--pink-4); top:9%;  left:46%; opacity:.45; animation-duration:5.5s; animation-delay:.6s; }
+  .ff2 { width:70px;  height:70px;  color:var(--pink-4); top:13%; left:64%; opacity:.45; animation-duration:5.5s; animation-delay:.6s; }
   .ff3 { width:100px; height:100px; color:var(--pink-2); top:16%; right:16%; opacity:.5;  animation-duration:6s;   animation-delay:1s; }
   .ff4 { width:64px;  height:64px;  color:var(--pink-3); top:42%; left:8%;  opacity:.4;  animation-duration:4.8s; animation-delay:.3s; }
   .ff5 { width:74px;  height:74px;  color:var(--pink-4); top:46%; right:9%; opacity:.42; animation-duration:5.2s; animation-delay:1.3s; }
@@ -91,26 +91,35 @@
 
   /* ---- Khung ảnh LỚN quanh màn hình ---- */
   .outer { position:fixed; inset:0; z-index:1; pointer-events:none; display:none; }
-  /* width co giãn: nhỏ nhất 170px, lớn nhất 250px, theo bề rộng màn hình -> luôn còn khoảng hở */
-  .outer .polaroid { position:absolute; width:clamp(170px,17vw,250px); animation:floaty 6s ease-in-out infinite; }
-  .outer .ph { width:100%; aspect-ratio:1; height:auto; }
+  .outer .polaroid { position:absolute; width:230px; animation:floaty 6s ease-in-out infinite;
+    pointer-events:auto; cursor:zoom-in; transition:transform .25s ease, box-shadow .25s ease; }
+  .outer .polaroid:hover { box-shadow:0 18px 36px rgba(214,51,108,.45); z-index:3; }
+  .outer .ph { width:212px; height:212px; }
   .outer figcaption { font-size:20px; margin-top:10px; }
   .outer .ph-ic { font-size:34px; } .outer .ph-ic small { font-size:13px; }
-  /* viền ảnh cân đối ôm quanh phong bì: 3 trên · 2 bên · 2 dưới */
-  .outer .p1{ top:6%;    left:4%;    transform:rotate(-6deg); animation-delay:0s;   }
-  .outer .p2{ top:3%;    left:50%;   transform:translateX(-50%) rotate(3deg); animation-delay:2.4s; }
-  .outer .p3{ top:6%;    right:4%;   transform:rotate(6deg);  animation-delay:1.2s; }
-  .outer .p4{ top:37%;   left:2%;    transform:rotate(-4deg); animation-delay:1.8s; }
-  .outer .p5{ top:37%;   right:2%;   transform:rotate(5deg);  animation-delay:.6s;  }
-  .outer .p6{ bottom:5%; left:16%;   transform:rotate(5deg);  animation-delay:3s;   }
-  .outer .p7{ bottom:5%; right:16%;  transform:rotate(-6deg); animation-delay:.9s;  }
+  /* Ảnh to nên KHÔNG xếp 3 tấm chồng dọc một bên (sẽ đè nhau trên màn thường).
+     Trải đều: hàng trên 4 ảnh – hàng dưới 3 ảnh, so le + xoay/cỡ khác nhau cho tự nhiên,
+     chừa trống khoảng giữa cho phong bì. */
+  /* hàng trên (4) */
+  .outer .p1{ top:4%;  left:1%;   transform:rotate(-7deg) scale(1);   animation-delay:0s;   }
+  .outer .p2{ top:6%;  left:25%;  transform:rotate(5deg)  scale(.9);  animation-delay:1.2s; }
+  .outer .p3{ top:1%;  left:52%;  transform:rotate(-4deg) scale(.88); animation-delay:2.4s; }
+  .outer .p4{ top:5%;  right:1%;  transform:rotate(8deg)  scale(1);   animation-delay:.6s;  }
+  /* hàng dưới (3) */
+  .outer .p5{ bottom:4%; left:8%;   transform:rotate(6deg)  scale(.98); animation-delay:1.8s; }
+  .outer .p6{ bottom:1%; left:40%;  transform:rotate(-6deg) scale(.9);  animation-delay:3s;   }
+  .outer .p7{ bottom:4%; right:8%;  transform:rotate(7deg)  scale(.94); animation-delay:.9s;  }
   @keyframes floaty { 0%,100%{translate:0 0;} 50%{translate:0 -16px;} }
   @media (min-width:1280px){ .outer{display:block;} }
-  @media (min-width:1024px) and (max-width:1279px){ .outer{display:block;} }
+  @media (min-width:1024px) and (max-width:1279px){
+    .outer{display:block;}
+    .outer .polaroid{width:190px;} .outer .ph{width:172px;height:172px;}
+  }
 
   /* ---- Sân khấu + phong bì ---- */
-  .scene { position:relative; z-index:2; min-height:100vh;
+  .scene { position:relative; z-index:2; min-height:100vh; pointer-events:none;
     display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px 16px; }
+  .scene .envelope { pointer-events:auto; }   /* chỉ phong bì bắt click, để thẻ ảnh phía dưới vẫn bấm được */
   .hint { margin-top:34px; font-size:15px; color:var(--pink-deep); font-style:italic;
     animation:pulse 1.8s ease-in-out infinite; transition:opacity .4s ease; }
   @keyframes pulse { 0%,100%{opacity:.55;transform:translateY(0);} 50%{opacity:1;transform:translateY(4px);} }
@@ -206,6 +215,27 @@
   .inner-photos .polaroid { width:120px; padding:8px 8px 26px; transform:rotate(var(--rot,0deg)); }
   .inner-photos .ph { width:104px; height:104px; }
   .inner-photos figcaption { font-size:17px; }
+
+  /* ---- LIGHTBOX xem ảnh full màn hình ---- */
+  .lightbox { position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center;
+    padding:24px; background:rgba(40,8,24,.82); backdrop-filter:blur(6px); cursor:zoom-out;
+    opacity:0; visibility:hidden; transition:opacity .3s ease, visibility .3s ease; }
+  .lightbox.show { opacity:1; visibility:visible; }
+  .lightbox img { max-width:92vw; max-height:84vh; object-fit:contain; cursor:default;
+    border:6px solid #fff; border-radius:8px; box-shadow:0 24px 70px rgba(0,0,0,.55);
+    transform:scale(.85); transition:transform .3s cubic-bezier(.2,.85,.25,1); }
+  .lightbox.show img { transform:scale(1); }
+  .lightbox .lb-cap { position:absolute; bottom:24px; left:0; right:0; text-align:center;
+    color:#fff; font-family:"Caveat",cursive; font-size:26px; text-shadow:0 2px 8px rgba(0,0,0,.6);
+    pointer-events:none; }
+  /* nút thoát + gợi ý chỗ click thoát */
+  .lightbox .lb-close { position:absolute; top:18px; right:22px; width:48px; height:48px; border:none;
+    border-radius:50%; cursor:pointer; font-size:26px; line-height:1; color:#fff; font-family:system-ui;
+    background:linear-gradient(135deg,var(--pink-4),var(--pink-deep)); box-shadow:0 4px 14px rgba(0,0,0,.45);
+    z-index:2; transition:transform .2s ease; }
+  .lightbox .lb-close:hover { transform:scale(1.12) rotate(90deg); }
+  .lightbox .lb-tip { position:absolute; top:24px; left:0; right:0; text-align:center; pointer-events:none;
+    color:rgba(255,255,255,.8); font-size:14px; font-style:italic; }
 
   footer { position:fixed; bottom:12px; width:100%; text-align:center; font-size:12px; color:rgba(214,51,108,.6); z-index:1; }
 
@@ -357,6 +387,14 @@
     </div>
   </div>
 
+  <!-- LIGHTBOX: ảnh phóng to full màn hình -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lb-tip">Bấm ra ngoài ảnh (hoặc nút ×, phím Esc) để thoát</div>
+    <button class="lb-close" id="lbClose" aria-label="Đóng">×</button>
+    <img id="lbImg" src="" alt="">
+    <div class="lb-cap" id="lbCap"></div>
+  </div>
+
   <footer>Made with 💗 &nbsp;•&nbsp; Thiệp chia tay anh Nam &nbsp;•&nbsp; ---AnhNT ft Gemini---</footer>
 
 <script>
@@ -399,8 +437,44 @@
   envelope.addEventListener("click", openCard);
   closeBtn.addEventListener("click", closeCard);
   modal.addEventListener("click",(e)=>{ if(e.target===modal) closeCard(); });
-  document.addEventListener("keydown",(e)=>{ if(e.key==="Escape") closeCard(); });
   setTimeout(openCard, 1100); // tự mở sau khi tải
+
+  // ---- Lightbox: click thẻ ảnh -> xem full màn hình ----
+  const lightbox=document.getElementById("lightbox");
+  const lbImg=document.getElementById("lbImg");
+  const lbCap=document.getElementById("lbCap");
+  const lbClose=document.getElementById("lbClose");
+
+  function openLightbox(src,cap){
+    lbImg.src=src; lbCap.textContent=cap||"";
+    lightbox.classList.add("show");
+    document.body.style.overflow="hidden";
+  }
+  function closeLightbox(){
+    lightbox.classList.remove("show");
+    if(!modal.classList.contains("show")) document.body.style.overflow="";
+  }
+
+  // mọi thẻ ảnh (khung lớn + ảnh trong thư) đều bấm xem được
+  document.querySelectorAll(".outer .polaroid, .inner-photos .polaroid").forEach(fig=>{
+    fig.addEventListener("click",(e)=>{
+      e.stopPropagation();                       // không bắn tim, không đóng thư
+      const img=fig.querySelector("img");
+      if(!img || img.style.display==="none") return;  // ảnh lỗi thì bỏ qua
+      const cap=(fig.querySelector("figcaption")||{}).textContent||"";
+      openLightbox(img.getAttribute("src"),cap);
+    });
+  });
+  lbClose.addEventListener("click", closeLightbox);
+  // bấm vào vùng nền tối (ngoài ảnh) để thoát
+  lightbox.addEventListener("click",(e)=>{ if(e.target!==lbImg) closeLightbox(); });
+
+  // Esc: ưu tiên đóng lightbox trước, sau đó mới đóng thư
+  document.addEventListener("keydown",(e)=>{
+    if(e.key!=="Escape") return;
+    if(lightbox.classList.contains("show")) closeLightbox();
+    else closeCard();
+  });
 
   // ---- Tim bắn ----
   function burstHearts(x,y){
@@ -416,7 +490,7 @@
     }
   }
   document.addEventListener("click",(e)=>{
-    if(e.target.closest(".envelope")||e.target.closest(".modal")) return;
+    if(e.target.closest(".envelope")||e.target.closest(".modal")||e.target.closest(".outer")||e.target.closest(".lightbox")) return;
     burstHearts(e.clientX,e.clientY);
   });
 </script>
